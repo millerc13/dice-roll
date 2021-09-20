@@ -12,6 +12,8 @@ import RollInterface from "../../utils/RollInterface";
 import DiceBoard from "../Dice/DiceBoard";
 import "./TabPanel.css";
 import TestPage from "../Testing/TestPage";
+import TestContainer from "../Testing/TestContainer/TestContainer"
+
 declare type resultCallback = (myArgument: RollInterface[]) => void;
 
 interface TabPanelProps {
@@ -104,6 +106,7 @@ export default function BasicTabs() {
         >
           <Tab label="Dice Roll" {...a11yProps(0)} />
           <Tab label="Testing" {...a11yProps(1)} />
+          <Tab label="Dice Roll Charts" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -184,6 +187,9 @@ export default function BasicTabs() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <TestPage></TestPage>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <TestContainer></TestContainer>
       </TabPanel>
     </Box>
   );

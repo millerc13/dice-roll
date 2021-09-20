@@ -12,6 +12,8 @@ import {
   MinorGrid,
   CommonPaneSettings,
   Border,
+  Tooltip
+
 } from "devextreme-react/chart";
 import { Container } from "@mui/material";
 // import { generateDataSource } from "./data.js";
@@ -48,27 +50,27 @@ export const DataChart: React.FC<TestingResults> = ({
 
   const ds = [
     {
-      dice: "Dice 1",
+      dice1: "Dice 1",
       rollNumber: dataSource[0],
     },
     {
-      dice: "Dice 2",
+      dice2: "Dice 2",
       rollNumber: dataSource[1],
     },
     {
-      dice: "Dice 3",
+      dice3: "Dice 3",
       rollNumber: dataSource[2],
     },
     {
-      dice: "Dice 4",
+      dice4: "Dice 4",
       rollNumber: dataSource[3],
     },
     {
-      dice: "Dice 5",
+      dice5: "Dice 5",
       rollNumber: dataSource[4],
     },
     {
-      dice: "Dice 6",
+      dice6: "Dice 6",
       rollNumber: dataSource[5],
     },
   ];
@@ -77,13 +79,70 @@ export const DataChart: React.FC<TestingResults> = ({
     <Chart id="chart" dataSource={ds}>
       <Series
         valueField="rollNumber"
-        argumentField="dice"
-        name="Dice"
+        argumentField="dice1"
+        name="Dice 1"
         type="bar"
-        color="#ffaa66"
+        color="#ffb56b"
       />
+      <Series
+        valueField="rollNumber"
+        argumentField="dice2"
+        name="Dice 2"
+        type="bar"
+        color="#63ebe8"
+      />
+      <Series
+        valueField="rollNumber"
+        argumentField="dice3"
+        name="Dice 3"
+        type="bar"
+        color="#63c2eb"
+      />
+      <Series
+        valueField="rollNumber"
+        argumentField="dice4"
+        name="Dice 4"
+        type="bar"
+        color="#c463eb"
+      />
+      <Series
+        valueField="rollNumber"
+        argumentField="dice5"
+        name="Dice 5"
+        type="bar"
+        color="#eb63cb"
+      />
+      <Series
+        valueField="rollNumber"
+        argumentField="dice6"
+        name="Dice 6"
+        type="bar"
+        color="#eb6363"
+      />
+              <Tooltip
+          enabled={true}
+          shared={true}
+        />
+      
     </Chart>
   );
 };
+function customizeTooltip(pointInfo: any) {
+  return {
+    html: `<div><div class="tooltip-header">${
+      pointInfo.argumentText
+    }</div><div class="tooltip-body"><div class="series-name"><span class='top-series-name'>${
+      pointInfo.dataSource[0].seriesName
+    }</span>: </div><div class="value-text"><span class='top-series-value'>${
+      pointInfo.points[0].valueText
+    }</span></div><div class="series-name"><span class='bottom-series-name'>${
+      pointInfo.points[1].seriesName
+    }</span>: </div><div class="value-text"><span class='bottom-series-value'>${
+      pointInfo.points[1].valueText
+    }</span>% </div></div></div>`
+  };
+}
+
+
 
 export default DataChart;
