@@ -1,25 +1,8 @@
 import * as React from "react";
 import Paper from "@material-ui/core/Paper";
-import {
-  Chart,
-  Series,
-  CommonSeriesSettings,
-  Point,
-  Legend,
-  ValueAxis,
-  ArgumentAxis,
-  Grid,
-  MinorGrid,
-  CommonPaneSettings,
-  Border,
-  Tooltip,
-} from "devextreme-react/chart";
-import { Container } from "@mui/material";
-// import { generateDataSource } from "./data.js";
+import { Chart, Series, Tooltip } from "devextreme-react/chart";
 import { TestingResults } from "../TestData";
-import { generateTestData } from "../TestData";
-import themes from "devextreme/ui/themes";
-import { render } from "@testing-library/react";
+
 import "./DataChart.css";
 export const DataChart: React.FC<TestingResults> = ({
   dice1Total,

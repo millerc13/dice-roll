@@ -29,14 +29,20 @@ export const TestContainer = () => {
   const theme = useTheme();
   const testData: TestingResults = generateTestData(5, 1000);
   const [numberOfDice, setNumberOfDice] = React.useState<number>(1);
+  const [numberOfRolls, setNumberOfRolls] = React.useState<number>(10000);
+
   // Changes Dice and slider
-  const handleChangeSlider = (event: Event, newValue: number | number[]) => {
+  const handleChangeDice = (event: Event, newValue: number | number[]) => {
     setNumberOfDice(newValue as number);
+  };
+
+  const handleChangeRolls = (event: Event, newValue: number | number[]) => {
+    setNumberOfRolls(newValue as number);
   };
   const [tests, setTests] = React.useState<TestingResults>(testData);
 
   const handleTestData = () => {
-    setTests(generateTestData(numberOfDice, 1000));
+    setTests(generateTestData(numberOfDice, numberOfRolls));
   };
 
   return (
@@ -57,13 +63,17 @@ export const TestContainer = () => {
         </Typography>
         <Typography sx={{ color: "#fff" }} gutterBottom component="div">
           <code>{numberOfDice}</code> dice over 100,000 Rolls (
-          {numberOfDice * 100000}) Rolls{" "}
+          {numberOfDice * numberOfRolls}) Rolls{" "}
+        </Typography>
+        <br />
+        <Typography sx={{ color: "#fff" }} gutterBottom component="div">
+          # Of Dice
         </Typography>
         <Slider
           min={1}
           max={5}
           value={numberOfDice}
-          onChange={handleChangeSlider}
+          onChange={handleChangeDice}
           sx={{
             width: "50%",
             borderColor: "divider",
@@ -71,6 +81,24 @@ export const TestContainer = () => {
             msTransition: "false",
           }}
         />
+        <div>
+          <br />
+          <Typography sx={{ color: "#fff" }} gutterBottom component="div">
+            # Of Rolls
+          </Typography>
+          <Slider
+            min={1}
+            max={1000000}
+            value={numberOfRolls}
+            onChange={handleChangeRolls}
+            sx={{
+              width: "50%",
+              borderColor: "divider",
+              transitionDuration: "0s",
+              msTransition: "false",
+            }}
+          />
+        </div>
       </CardContent>
 
       <CardActions>
