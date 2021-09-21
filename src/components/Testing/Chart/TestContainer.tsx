@@ -17,17 +17,17 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import CssBaseline from "@mui/material/CssBaseline";
 import Cover from "../../assets/images/Mac_Miller_Live_from_Space.jpg";
-import DataChart from "./Chart/DataChart";
+import DataChart from "./DataChart";
 import { ThemeProvider } from "@mui/private-theming";
-import { generateTestData } from "./Chart/TestData";
-import { TestingResults } from "./Chart/TestData";
+import { generateTestData } from "../TestData";
+import { TestingResults } from "../TestData";
 import Test from "../All_Tests/TestDeviation";
 
 import { CardActionArea, CardActions } from "@mui/material";
 
 export const TestContainer = () => {
   const theme = useTheme();
-  const testData: TestingResults = generateTestData(5);
+  const testData: TestingResults = generateTestData(5, 1000);
   const [numberOfDice, setNumberOfDice] = React.useState<number>(1);
   // Changes Dice and slider
   const handleChangeSlider = (event: Event, newValue: number | number[]) => {
@@ -36,7 +36,7 @@ export const TestContainer = () => {
   const [tests, setTests] = React.useState<TestingResults>(testData);
 
   const handleTestData = () => {
-    setTests(generateTestData(numberOfDice));
+    setTests(generateTestData(numberOfDice, 1000));
   };
 
   return (

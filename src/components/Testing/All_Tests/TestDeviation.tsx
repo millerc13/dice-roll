@@ -9,60 +9,132 @@ import TextField from "@mui/material/TextField";
 import RollDice from "../../../utils/RollDice";
 import RollInterface from "../../../utils/RollInterface";
 import TestInterface from "./TestInterface";
+import { Container  } from "@mui/material";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import {
   generateTestData,
   TestingResults,
-} from "../TestContainer/Chart/TestData";
+} from "../TestData";
 
 export const Test: React.FC<TestInterface> = ({
   testTitle,
-  testInput,
-  testExpectedOutput,
+  testInputDice,
+  testInputRolls
 }: TestInterface) => {
-  const [input, setInput] = React.useState("");
+
+  
+  const [testRan, setTestRan] = React.useState(false);
+  const [testPassed, setTestPassed] = React.useState<boolean>();
+  const [input, setInput] = React.useState(100);
+  const [totalRolls, setTotalRolls] = React.useState(0);
+  const [tests, setTests] = React.useState<TestingResults>({dice1Total: 0,dice2Total: 0,dice3Total: 0,dice4Total: 0,dice5Total: 0,dice6Total: 0});
+  const [percentDeviation, setPercentDeviation] = React.useState(0);
+  const [maxDeviation, setMaxDeviation] = React.useState(0);
+  const [minDeviation, setMinDeviation] = React.useState(0);
+  const [deviationAllowed, setDeviationAllowed] = React.useState(0);
+  const [totalDiceRolled, setTotalDiceRolled] = React.useState<number>(0);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+
+  const [diceDeviations, setDiceDeviations] = React.useState([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
+    var inputInt = parseInt(event.target.value);
+    setInput(inputInt);
   };
 
-  const [tests, setTests] = React.useState<TestingResults>();
-  const [percentDeviation, setPercentDeviation] = React.useState(0);
-  const [testPassed, setTestPassed] = React.useState<boolean>();
-  const [bgColorPF, setBgColorPF] = React.useState("");
-
+  const handleRollChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    var inputInt = parseInt(event.target.value);
+    setTotalRolls(inputInt);
+  };
   const runTest = () => {
-    var inputForTest = parseInt(input);
-    console.log(inputForTest);
-    const testData: TestingResults = generateTestData(inputForTest);
-    setTests(testData);
+    setTests(generateTestData(input, totalRolls));
+    setTestRan(true);
+  };
+  const handleExpanded =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
+
+  React.useEffect(() => {
+
+    var variance = ( (totalRolls * input) * (35 / 12));
+    setTotalDiceRolled(tests!.dice1Total + tests!.dice2Total +tests!.dice3Total +tests!.dice4Total +tests!.dice5Total +tests!.dice6Total )
+    var deviation = (Math.sqrt(variance))
 
     var max = Math.max(
-      testData.dice1Total,
-      testData.dice2Total,
-      testData.dice3Total,
-      testData.dice4Total,
-      testData.dice5Total,
-      testData.dice6Total
+      tests!.dice1Total,
+      tests!.dice2Total,
+      tests!.dice3Total,
+      tests!.dice4Total,
+      tests!.dice5Total,
+      tests!.dice6Total
     );
-    var min = Math.min(
-      testData.dice1Total,
-      testData.dice2Total,
-      testData.dice3Total,
-      testData.dice4Total,
-      testData.dice5Total,
-      testData.dice6Total
-    );
+     var min = Math.min(
+      tests!.dice1Total,
+      tests!.dice2Total,
+      tests!.dice3Total,
+      tests!.dice4Total,
+      tests!.dice5Total,
+      tests!.dice6Total
+     );
 
-    setPercentDeviation((max - min) / (inputForTest * 100000));
+     console.log('Max' + max);
+     console.log('Min' + min);
 
-    if (percentDeviation < testExpectedOutput) {
-      setTestPassed(true);
-    } else {
-      setTestPassed(false);
+     var base = (totalRolls * input)/6;
+     var allowedDeviationMax = base + deviation;
+     var allowedDeviationMin = base - deviation;
+     var deviationAllowed = deviation;
+
+    
+     if(max < base + deviation){
+       console.log('Max is OK... \n Real Deviation: ' + max + ' Allowed Deviation: ' + allowedDeviationMax)
+       setTestPassed(true)
+     }
+     if(min > allowedDeviationMin){
+      console.log('Min is OK... \n Real Deviation: ' + min + ' Allowed Deviation: ' + allowedDeviationMin)
+      setTestPassed(true)
     }
-  };
+    if(max > base + deviation){
+      // console.log('Max is OK... \n Real Deviation: ' + max + ' Allowed Deviation: ' + allowedDeviationMax)
+      setTestPassed(false)
+    }
+    if(min < allowedDeviationMin){
+    //  console.log('Min is OK... \n Real Deviation: ' + min + ' Allowed Deviation: ' + allowedDeviationMin)
+     setTestPassed(false)
+   }
+
+    setMaxDeviation(allowedDeviationMax);
+    setMinDeviation(allowedDeviationMin);
+    setDeviationAllowed(deviationAllowed);
+
+    //  var deviationStandard = (((1/12) * (totalRolls * input)));
+    // var realDeviation1 = ((tests!.dice1Total - deviationStandard))
+    //  console.log('Deviation Standard: ' + deviationStandard);
+    //  console.log('Real Deviation : ' + realDeviation1);
+
+
+     
+
+     
+
+    //var diceDev:number[] = [tests!.dice1Total, 2];
+
+
+     console.log('Total / 6: ' + totalDiceRolled / 6 + '+_ ' + deviation);
+     console.log('Calculated deviation: ' + deviation )
+    //  console.log((max - min));
+    setPercentDeviation((max - min));
+    
+}, [tests])
+
 
   return (
+    <Container>
     <Card sx={{ minWidth: 275, backgroundColor: "" }}>
       <CardContent>
         <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
@@ -73,54 +145,114 @@ export const Test: React.FC<TestInterface> = ({
           Input:
         </Typography>
         <TextField
-          onChange={handleChange}
           id="filled-basic"
-          label="# of dice (1-5)"
+          label={testInputDice}
           variant="filled"
+          type="number"
+          onChange={handleChange}
+          
         />
+        <TextField
+          id="filled-basic"
+          label={testInputRolls}
+          variant="filled"
+          type="number"
+          onChange={handleRollChange}
+          sx={{ml: 3}}
+        />
+        <br/>
+        
+        
         <Typography sx={{ mt: 1.5 }} color="text.secondary">
-          Expected Output:
+          Expected Output: 
         </Typography>
         <Typography
           sx={{ mt: 1.5, fontSize: 16 }}
           color="text.primary"
           gutterBottom
         >
-          {"Deviation % < " + testExpectedOutput}
+          {"1:  " + ((totalRolls * input)/6) + ' ± ' + Math.sqrt(((totalRolls * input) * (35 / 12)))} 
+          <br/>
+          {"2:  " + ((totalRolls * input)/6) + ' ± ' + Math.sqrt(((totalRolls * input) * (35 / 12)))}
+          <br/>
+          {"3:  " + ((totalRolls * input)/6) + ' ± ' + Math.sqrt(((totalRolls * input) * (35 / 12)))}
+          <br/>
+          {"4:  " + ((totalRolls * input)/6) + ' ± ' + Math.sqrt(((totalRolls * input) * (35 / 12)))}
+          <br/>
+          {"5:  " + ((totalRolls * input)/6) + ' ± ' + Math.sqrt(((totalRolls * input) * (35 / 12)))}
+          <br/>
+          {"6:  " + ((totalRolls * input)/6) + ' ± ' + Math.sqrt(((totalRolls * input) * (35 / 12)))}
+
         </Typography>
 
-        {percentDeviation == 0 && (
           <Typography sx={{ mt: 2 }} color="text.secondary">
-            Actual Output:
+            Actual Output: 
           </Typography>
-        )}
 
-        {percentDeviation != 0 && (
-          <Typography sx={{ mt: 2 }} color="text.secondary">
-            Actual Output: {percentDeviation}
+        {input == 0 && (
+          <Typography sx={{ mt: 1 }} color="text.primary">
+             Run the Test to get output
+          </Typography>
+          )}
+
+
+        {input != 100 && percentDeviation != 0 &&(
+          <Typography sx={{ mt: 2 }} color="text.primary">
+          {"1:  " + tests.dice1Total} 
+          <br/>
+          {"2:  " + tests.dice2Total} 
+          <br/>
+          {"3:  " + tests.dice3Total} 
+          <br/>
+          {"4:  " + tests.dice4Total} 
+          <br/>
+          {"5:  " + tests.dice5Total} 
+          <br/>
+          {"6:  " + tests.dice6Total} 
           </Typography>
         )}
-        <Typography sx={{ mt: 4 }} color="text.secondary">
-          Extra Info:
+        <Accordion sx={{mt: 3, mb:3, ml: -1}} expanded={expanded === 'panel1'} onChange={handleExpanded('panel1')}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Typography sx={{ width: '33%', flexShrink: 0 }}>
+            Extra Info
+          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>Extra Test Information</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography sx={{ mt: 1 }}>
+            Total Dice Rolled: {totalDiceRolled}
+          </Typography >
+          <Typography sx={{ mt: 1 }}>
+          Maximum Allowed For Roll: {maxDeviation}
+          </Typography>
+          <Typography sx={{ mt: 1 }}>
+          Minimum Allowed For Roll: {minDeviation}
+          </Typography>
+    
+        </AccordionDetails>
+      </Accordion>
+        {/* <Typography sx={{ mt: 1 }} color="text.secondary">
+          Occurence Of 1: {tests?.dice1Total}
         </Typography>
         <Typography sx={{ mt: 1 }} color="text.secondary">
-          Dice 1: {tests?.dice1Total}
+        Occurence Of 2: {tests?.dice2Total}
         </Typography>
         <Typography sx={{ mt: 1 }} color="text.secondary">
-          Dice 2: {tests?.dice2Total}
+        Occurence Of 3: {tests?.dice3Total}
         </Typography>
         <Typography sx={{ mt: 1 }} color="text.secondary">
-          Dice 3: {tests?.dice3Total}
+        Occurence Of 4: {tests?.dice4Total}
         </Typography>
         <Typography sx={{ mt: 1 }} color="text.secondary">
-          Dice 4: {tests?.dice4Total}
+        Occurence Of 5: {tests?.dice5Total}
         </Typography>
         <Typography sx={{ mt: 1 }} color="text.secondary">
-          Dice 5: {tests?.dice5Total}
-        </Typography>
-        <Typography sx={{ mt: 1 }} color="text.secondary">
-          Dice 6: {tests?.dice6Total}
-        </Typography>
+        Occurence Of 6: {tests?.dice6Total}
+        </Typography> */}
       </CardContent>
       <CardActions sx={{ minWidth: 275, backgroundColor: {} }}>
         <Button onClick={runTest} size="large">
@@ -132,12 +264,13 @@ export const Test: React.FC<TestInterface> = ({
           </Typography>
         )}
         {testPassed == false && (
-          <Typography sx={{ color: "#009e05" }} color="#bf0000">
+          <Typography sx={{ color: "#ff0505" }} color="#bf0000">
             Failed
           </Typography>
         )}
       </CardActions>
     </Card>
+    </Container>
   );
 };
 

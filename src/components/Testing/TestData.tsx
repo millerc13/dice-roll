@@ -1,8 +1,8 @@
 import React from "react";
-import RollDice from "../../../../utils/RollDice";
+import RollDice from "../../utils/RollDice";
 import { Paper } from "@mui/material";
-import RollInterface from "../../../../utils/RollInterface";
-import DataChart from "./DataChart";
+import RollInterface from "../../utils/RollInterface";
+import DataChart from "./Chart/DataChart";
 
 export interface TestingResults {
   dice1Total: number;
@@ -13,7 +13,7 @@ export interface TestingResults {
   dice6Total: number;
 }
 
-export function generateTestData(amountOfDice: number) {
+export function generateTestData(amountOfDice: number, amountTotal: number) {
   var testRolls: RollInterface[] = [];
   var resultTestRolls: RollInterface[] = [];
 
@@ -27,7 +27,7 @@ export function generateTestData(amountOfDice: number) {
   };
 
   var j = amountOfDice - 1;
-  for (var i = 0; i < amountOfDice * 100000; i++) {
+  for (var i = 0; i < amountOfDice * amountTotal; i++) {
     if (j < 0) {
       j = amountOfDice - 1;
     }

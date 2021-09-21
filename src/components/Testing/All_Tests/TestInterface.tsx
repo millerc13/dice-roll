@@ -1,6 +1,6 @@
 export interface TestInterface {
   testTitle: string;
-  testInput: string;
-  testExpectedOutput: number;
+  testInputDice: string;
+  testInputRolls: string;
 }
 export default TestInterface;

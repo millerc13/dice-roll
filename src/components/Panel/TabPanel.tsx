@@ -12,7 +12,7 @@ import RollInterface from "../../utils/RollInterface";
 import DiceBoard from "../Dice/DiceBoard";
 import "./TabPanel.css";
 import TestPage from "../Testing/TestPage";
-import TestContainer from "../Testing/TestContainer/TestContainer"
+import TestContainer from "../Testing/Chart/TestContainer"
 
 declare type resultCallback = (myArgument: RollInterface[]) => void;
 

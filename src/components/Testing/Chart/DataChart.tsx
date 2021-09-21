@@ -17,8 +17,8 @@ import {
 } from "devextreme-react/chart";
 import { Container } from "@mui/material";
 // import { generateDataSource } from "./data.js";
-import { TestingResults } from "./TestData";
-import { generateTestData } from "./TestData";
+import { TestingResults } from "../TestData";
+import { generateTestData } from "../TestData";
 import themes from "devextreme/ui/themes";
 import { render } from "@testing-library/react";
 import "./DataChart.css";
