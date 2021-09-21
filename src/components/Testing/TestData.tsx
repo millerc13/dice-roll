@@ -62,13 +62,5 @@ export function generateTestData(amountOfDice: number, amountTotal: number) {
     }
     j--;
   }
-
-  console.log("Dice 1: " + testingResultTotals.dice1Total);
-  console.log("Dice 2: " + testingResultTotals.dice2Total);
-  console.log("Dice 3: " + testingResultTotals.dice3Total);
-  console.log("Dice 4: " + testingResultTotals.dice4Total);
-  console.log("Dice 5: " + testingResultTotals.dice5Total);
-  console.log("Dice 6: " + testingResultTotals.dice6Total);
-
   return testingResultTotals;
 }

@@ -1,0 +1,6 @@
+{
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.suggest.showEnums": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

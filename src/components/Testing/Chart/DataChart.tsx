@@ -12,8 +12,7 @@ import {
   MinorGrid,
   CommonPaneSettings,
   Border,
-  Tooltip
-
+  Tooltip,
 } from "devextreme-react/chart";
 import { Container } from "@mui/material";
 // import { generateDataSource } from "./data.js";
@@ -119,30 +118,14 @@ export const DataChart: React.FC<TestingResults> = ({
         type="bar"
         color="#eb6363"
       />
-              <Tooltip
-          enabled={true}
-          shared={true}
-        />
-      
+      <Tooltip enabled={true} shared={true} />
     </Chart>
   );
 };
 function customizeTooltip(pointInfo: any) {
   return {
-    html: `<div><div class="tooltip-header">${
-      pointInfo.argumentText
-    }</div><div class="tooltip-body"><div class="series-name"><span class='top-series-name'>${
-      pointInfo.dataSource[0].seriesName
-    }</span>: </div><div class="value-text"><span class='top-series-value'>${
-      pointInfo.points[0].valueText
-    }</span></div><div class="series-name"><span class='bottom-series-name'>${
-      pointInfo.points[1].seriesName
-    }</span>: </div><div class="value-text"><span class='bottom-series-value'>${
-      pointInfo.points[1].valueText
-    }</span>% </div></div></div>`
+    html: `<div><div class="tooltip-header">${pointInfo.argumentText}</div><div class="tooltip-body"><div class="series-name"><span class='top-series-name'>${pointInfo.dataSource[0].seriesName}</span>: </div><div class="value-text"><span class='top-series-value'>${pointInfo.points[0].valueText}</span></div><div class="series-name"><span class='bottom-series-name'>${pointInfo.points[1].seriesName}</span>: </div><div class="value-text"><span class='bottom-series-value'>${pointInfo.points[1].valueText}</span>% </div></div></div>`,
   };
 }
-
-
 
 export default DataChart;

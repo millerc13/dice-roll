@@ -1,5 +1,3 @@
-import RollInterface from "../../utils/RollInterface";
-
 interface DiceData {
   numberOfDice: number;
   currentDie: number;

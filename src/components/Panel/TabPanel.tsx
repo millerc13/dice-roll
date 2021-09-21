@@ -12,7 +12,8 @@ import RollInterface from "../../utils/RollInterface";
 import DiceBoard from "../Dice/DiceBoard";
 import "./TabPanel.css";
 import TestPage from "../Testing/TestPage";
-import TestContainer from "../Testing/Chart/TestContainer"
+import TestContainer from "../Testing/Chart/TestContainer";
+import Documentation from "../Documentation/Documentation";
 
 declare type resultCallback = (myArgument: RollInterface[]) => void;
 
@@ -78,8 +79,6 @@ export default function BasicTabs() {
 
   const handleRollDice = () => {
     setRollResults(RollDice(numberOfDice));
-
-    console.log(rollResults);
   };
 
   return (
@@ -107,6 +106,7 @@ export default function BasicTabs() {
           <Tab label="Dice Roll" {...a11yProps(0)} />
           <Tab label="Testing" {...a11yProps(1)} />
           <Tab label="Dice Roll Charts" {...a11yProps(1)} />
+          <Tab label="Documentation" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -123,8 +123,6 @@ export default function BasicTabs() {
               sx={{
                 backgroundColor: "#b32424",
                 marginTop: "10vh",
-                // marginLeft: "10vh",
-                // marginRight: "10vh",
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
@@ -159,9 +157,6 @@ export default function BasicTabs() {
                   alignItems: "center",
                   backgroundColor: "#252525",
                   boxShadow: "5px 15px 2px 1px #171717",
-                  // borderBottomWidth: "2px",
-                  // borderBottomColor: "#fff",
-                  // borderBottomLeftRadius: "10px",
                 }}
               >
                 <Box display="flex" justifyContent="center" p={12}>
@@ -190,6 +185,9 @@ export default function BasicTabs() {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <TestContainer></TestContainer>
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Documentation></Documentation>
       </TabPanel>
     </Box>
   );
