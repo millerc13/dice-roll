@@ -18,3 +18,5 @@ You will also see any lint errors in the console.
 [https://www.ceg3110-diceroll-miller.com/](https://www.ceg3110-diceroll-miller.com/)
 
 ## Documentation available on site
+
+![Documentation](readme-images/documentation.png "Documentation")
