@@ -1,4 +1,4 @@
-# React Dice Roll Randomness Webapp For Introduction Into Software Testing
+# Randomness Webapp For Introduction Into Software Testing
 ## WSU University 2021
 
 # Install Dependencies
